@@ -252,7 +252,7 @@ fn main() {
             // 1. HMAC unsign the FIXCOMP wrapper
             let (unsigned, _new_iv, _valid) = fix_unsign(&signed_fixcomp, &MAC_KEY, &INIT_IV);
             // 2. Decompress
-            let inner_msgs = fixcomp_decompress(&unsigned);
+            let inner_msgs = fixcomp_decompress(&unsigned).expect("fixcomp decompress");
             // 3. Process each inner message
             for inner in &inner_msgs {
                 if let Some(body) = find_body_after_tag(inner, b"35=P\x01") {

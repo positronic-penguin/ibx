@@ -507,7 +507,7 @@ fn fixcomp_wraps_secdef_response() {
     assert!(compressed.starts_with(b"8=FIXCOMP"));
 
     // Decompress and parse
-    let messages = fixcomp::fixcomp_decompress(&compressed);
+    let messages = fixcomp::fixcomp_decompress(&compressed).expect("decompress");
     assert_eq!(messages.len(), 1);
 
     let def = parse_secdef_response(&messages[0]).unwrap();

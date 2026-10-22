@@ -1057,13 +1057,14 @@ mod tests {
     }
 
     #[test]
-    fn hw_info_two_calls_differ() {
+    fn hw_info_two_calls_share_persistent_machine_id() {
         let info1 = get_hw_info();
         let info2 = get_hw_info();
         let machine1 = info1.split('|').next().unwrap();
         let machine2 = info2.split('|').next().unwrap();
-        // Random machine IDs should differ (8-hex-char random, collision negligible)
-        assert_ne!(machine1, machine2, "Two random machine IDs should differ");
+        // machine_id is the persistent 8-hex value from ~/hwid (see #132).
+        assert_eq!(machine1, machine2, "Persistent machine IDs should match");
+        assert_eq!(machine1.len(), 8);
     }
 
     #[test]
