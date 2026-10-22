@@ -81,7 +81,7 @@ pub(super) fn ccp_keepalive(ccp: &mut Connection) {
             };
             let (unsigned, _) = ccp.unsign(raw);
             let msg = if matches!(frame, Frame::FixComp(_)) {
-                fixcomp::fixcomp_decompress(&unsigned).into_iter().next()
+                fixcomp::fixcomp_decompress(&unsigned).ok().and_then(|msgs| msgs.into_iter().next())
             } else {
                 Some(unsigned)
             };
